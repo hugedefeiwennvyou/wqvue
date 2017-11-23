@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<style>
+    *{
+        list-style: none;
+        text-decoration: none;
+        padding:0;
+        margin:0;
+    }
+    .big-box{
+        width:300px;
+        height:auto;
+        margin:50px auto;
+        text-align: center;
+    }
+    p{
+        color:#efefef;
+        background: #646464;
+        height:30px;
+        line-height: 30px;
+        border-bottom:1px solid #efefef;
+    }
+    .list-son{
+        background: #efefef;
+        color:#646464;
+    }
+    .list-son li{
+        height:25px;
+        line-height: 25px;
+        margin-bottom:5px;
+    }
+    .list-son li:last-child{
+        margin-bottom:0;
+    }
+    .hidden{
+        display: none;
+    }
+</style>
+<body>
+ <div class="vue">
+     <mylist v-bind:con="con"></mylist>
+ </div>
+
+</body>
+</html>
+<script>
+    Vue.component('mylist',{
+          props:["con"],
+          template:`
+             <ul class="big-box">
+                <li class="list" v-for="item in con">
+                  <p @click="display(item,item.hidden)" >{{item.title}}</p>
+                  <ul class="list-son" v-for="con in item.arr" v-bind:class="{hidden:item.hidden}">
+                     <li>{{con}}</li>
+                  </ul>
+                </li>
+            </ul>
+          `,
+        methods:{
+            display(item,hidden){
+//                console.log(hidden)
+              item.hidden=!hidden;
+            }
+        }
+    })
+
+    var vm=new Vue({
+        el:".vue",
+        data:{
+           con: [{title:'一',arr:['1','2','3','4'],hidden:true,},
+                 {title:'二',arr:['5','6','7','8'],hidden:true},
+                 {title:'三',arr:['9','10','11','12'],hidden:true}],
+        }
+    })
+</script>
